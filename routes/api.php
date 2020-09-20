@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\WeatherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/weather/now/{location?}', [WeatherController::class, 'show']);
+Route::get('/weather/forecast/{location?}', [WeatherController::class, 'forecast']);
+Route::get('/weather/findByLocation/{query}', [WeatherController::class, 'findByLocation']);
+
+
