@@ -36,6 +36,8 @@ class WeatherTest extends TestCase
     {
         $query = "Buenos Aires";
 
+        //https://www.metaweather.com/api/location/search/?lattlong=-34.4442,-58.5775
+
         $response = $this->getJson("/api/weather/findByLocation/$query");
 
         $response->dump();

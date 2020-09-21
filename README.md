@@ -4,16 +4,16 @@ Desafío: Cree una aplicación meteorológica mediante una API. Utilice bibliote
 
 Cumplir las historias de usuario a continuación:
 
-- [ ] Puedo ver el clima de la ciudad como predeterminado, preferiblemente mi ubicación actual
+- [x] Puedo ver el clima de la ciudad como predeterminado, preferiblemente mi ubicación actual
 - [x] Puedo buscar la ciudad
 - [x] Puedo ver el tiempo de hoy y los próximos 5 días
-- [ ] Puedo ver la fecha y la ubicación del tiempo
-- [ ] Puedo ver de acuerdo a la imagen para cada tipo de clima
-- [ ] Puedo ver el grado mínimo y máximo cada día
+- [x] Puedo ver la fecha y la ubicación del tiempo
+- [x] Puedo ver de acuerdo a la imagen para cada tipo de clima
+- [x] Puedo ver el grado mínimo y máximo cada día
 - [ ] Puedo ver el estado del viento y la dirección del viento
-- [ ] Puedo ver el porcentaje de humedad
-- [ ] Puedo ver el indicador de visibilidad
-- [ ] Puedo ver el número de presión del aire
+- [x] Puedo ver el porcentaje de humedad
+- [x] Puedo ver el indicador de visibilidad
+- [x] Puedo ver el número de presión del aire
 - [ ]  (opcional): Puedo solicitar mi tiempo de ubicación actual
 - [ ]  (opcional): Puedo convertir la temperatura en Celcius a Fahrenheit y viceversa
 Icono: https://google.github.io/material-design-icons/

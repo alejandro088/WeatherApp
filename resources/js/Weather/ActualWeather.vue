@@ -1,16 +1,26 @@
 <template>
     <div class="flex justify-center">
-        <CardWeather />
+        <CardTodayWeather v-if="today" :today-weather="today" />
     </div>
 </template>
 <script>
-
-import CardWeather from './../Weather/CardWeather'
+import CardTodayWeather from './../Weather/CardTodayWeather'
 
 export default {
     components: {
-        CardWeather
+        CardTodayWeather
     },
+    props: ['today'],
+    data() {
+        return {
+            
+
+        }
+    },
+    async mounted() {
+
+
+    }
 }
 
 </script>

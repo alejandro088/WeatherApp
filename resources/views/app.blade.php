@@ -19,7 +19,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
         
     </head>
-    <body class="font-sans antialiased">
+    <body class="bg-indigo-dark font-sans antialiased">
         <div id="app"></div>
 
         <script src="{{ asset('js/app.js') }}" defer></script>

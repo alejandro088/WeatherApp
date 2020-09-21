@@ -39,4 +39,12 @@ class WeatherController extends Controller
 
 		return $data;
     }
+
+    public function findByCoords($lat, $long)
+    {
+    	$response = Http::get("https://www.metaweather.com/api/location/search/?lattlong=$lat,$long");
+		$data = $response->json();
+
+		return $data;
+    }
 }
