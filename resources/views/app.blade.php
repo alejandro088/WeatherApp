@@ -14,11 +14,14 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
         
     </head>
     <body class="bg-indigo-dark font-sans antialiased">
         <div id="app"></div>
 
         <script src="/js/app.js" defer></script>
+        <script src="https://unpkg.com/lodash@latest/lodash.min.js" defer></script>
+        
     </body>
 </html>

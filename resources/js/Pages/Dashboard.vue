@@ -6,7 +6,7 @@
                 <h2 class="font-semibold text-xl text-indigo-lighter leading-tight">
                     WeatherApp
                     <span class="material-icons cursor-pointer" @click="changeToMyLocation">my_location</span>
-                    <FindLocation @search="changeLocation" />
+                    <FindLocation @detect="changeToMyLocation" @search="changeLocation" />
                 </h2>
             </div>
         </header>
@@ -187,11 +187,7 @@ export default {
 
         await this.findMyLocation();
 
-        await this.setWeatherData(this.myLocationWeather[0].woeid);
-
-        await this.setWeatherForecast(this.myLocationWeather[0].woeid);
-
-        this.loading = await false;
+        
     },
     methods: {
         async changeLocation(location) {
@@ -211,18 +207,39 @@ export default {
 
             await this.findMyLocation();
 
+            this.loading = await false;
+        },
+        async findMyLocation() {
+            var options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            };
+            await navigator.geolocation.getCurrentPosition(this.success, this.error, options);
+            //const location = await fetch('https://geolocation-db.com/json/');
+            //this.location = await location.json()
+        },
+        async success(pos) {
+            var crd = pos.coords;
+
+            console.log('Your current position is:');
+            console.log('Latitude : ' + crd.latitude);
+            console.log('Longitude: ' + crd.longitude);
+            console.log('More or less ' + crd.accuracy + ' meters.');
+
+            this.location = crd;
+
+            const myLocationWeather = await fetch(`/api/weather/findByCoords/${this.location.latitude}/${this.location.longitude}`);
+            this.myLocationWeather = await myLocationWeather.json()
+
             await this.setWeatherData(this.myLocationWeather[0].woeid);
 
             await this.setWeatherForecast(this.myLocationWeather[0].woeid);
 
             this.loading = await false;
         },
-        async findMyLocation() {
-            const location = await fetch('https://geolocation-db.com/json/');
-            this.location = await location.json()
-
-            const myLocationWeather = await fetch(`/api/weather/findByCoords/${this.location.latitude}/${this.location.longitude}`);
-            this.myLocationWeather = await myLocationWeather.json()
+        error(err) {
+            console.warn('ERROR(' + err.code + '): ' + err.message);
         },
         async setWeatherData(location) {
             const today = await fetch(`/api/weather/now/${location}`);

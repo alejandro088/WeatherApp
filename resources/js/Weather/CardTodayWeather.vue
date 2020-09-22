@@ -9,10 +9,7 @@
             <p>
                 <i class="material-icons md-36">place</i> {{ todayWeather.title }}
             </p>
-            <p>
-                Today -
-                {{ todayWeather.weather.applicable_date }}
-            </p>
+            <p>  {{ todayWeather.weather.applicable_date }}  </p>
         </div>
     </div>
 </template>
