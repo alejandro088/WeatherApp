@@ -10,7 +10,7 @@ Cumplir las historias de usuario a continuación:
 - [x] Puedo ver la fecha y la ubicación del tiempo
 - [x] Puedo ver de acuerdo a la imagen para cada tipo de clima
 - [x] Puedo ver el grado mínimo y máximo cada día
-- [ ] Puedo ver el estado del viento y la dirección del viento
+- [x] Puedo ver el estado del viento y la dirección del viento
 - [x] Puedo ver el porcentaje de humedad
 - [x] Puedo ver el indicador de visibilidad
 - [x] Puedo ver el número de presión del aire
