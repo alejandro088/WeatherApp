@@ -13,15 +13,12 @@
       rel="stylesheet">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
-        <!-- Scripts -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+        <link rel="stylesheet" href="/css/app.css">
         
     </head>
     <body class="bg-indigo-dark font-sans antialiased">
         <div id="app"></div>
 
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="/js/app.js" defer></script>
     </body>
 </html>
