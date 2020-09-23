@@ -1,21 +1,21 @@
 <template>
     <div class="text-indigo-lighter w-48 rounded shadow-lg bg-gray-900">
-        <img class="w-full" :src="`/images/${todayWeather.weather.weather_state_abbr}.png`" :alt="todayWeather.weather.weather_state_name">
+        <img class="w-full" :src="`http://openweathermap.org/img/wn/${todayWeather.weather[0].icon}@2x.png`" :alt="todayWeather.weather[0].main">
         <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">{{ todayWeather.weather.weather_state_name }}</div>
+            <div class="font-bold text-xl mb-2">{{ todayWeather.weather[0].main }}</div>
             <p class="text-5xl">
-                {{ Math.round(todayWeather.weather.the_temp * 10) / 10 }}ºC
+                {{ Math.round(todayWeather.temp * 10) / 10 }}ºC
             </p>
-            <p>
-                <i class="material-icons md-36">place</i> {{ todayWeather.title }}
+            <p v-if="location">
+                <i class="material-icons md-36">place</i> {{ location.city ? location.city : location.town }}
             </p>
-            <p>  {{ todayWeather.weather.applicable_date }}  </p>
+            <p>  {{ todayWeather.dt }}  </p>
         </div>
     </div>
 </template>
 <script>
 export default {
-    props: ['todayWeather'],
+    props: ['todayWeather', 'location'],
     mounted() {
 
     }

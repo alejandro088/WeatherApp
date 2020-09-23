@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\WeatherController;
 */
 
 Route::get('/weather/now/{location?}', [WeatherController::class, 'show']);
-Route::get('/weather/forecast/{location?}', [WeatherController::class, 'forecast']);
+Route::get('/weather/forecast/{lat}/{long}', [WeatherController::class, 'forecast']);
 Route::get('/weather/findByLocation/{query}', [WeatherController::class, 'findByLocation']);
 Route::get('/weather/findByCoords/{lat}/{long}', [WeatherController::class, 'findByCoords']);
 

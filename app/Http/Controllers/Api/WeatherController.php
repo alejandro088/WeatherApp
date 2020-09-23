@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class WeatherController extends Controller
 {
+
     public function show($location)
     {
     	$response = Http::get("https://www.metaweather.com/api/location/$location");
@@ -23,18 +24,24 @@ class WeatherController extends Controller
 		return $weather;
     }
 
-    public function forecast($location)
+    public function forecast($lat, $long)
     {
-    	$response = Http::get("https://www.metaweather.com/api/location/$location");
+
+    	$key = env('WEATHER_API_KEY');
+
+    	// lat -34.4715
+    	// long -58.545
+
+    	$response = Http::get("https://api.openweathermap.org/data/2.5/onecall?lat=$lat&lon=$long&appid=$key&units=metric");
 		$data = $response->json();
 		
-		$forecast = array_slice($data['consolidated_weather'], 1);
-		return $forecast;
+		return $data;
     }
 
     public function findByLocation($query)
     {
-    	$response = Http::get("https://www.metaweather.com/api/location/search/?query=$query");
+
+    	$response = Http::get("https://nominatim.openstreetmap.org/search?city=$query&format=json");
 		$data = $response->json();
 
 		return $data;
@@ -42,7 +49,11 @@ class WeatherController extends Controller
 
     public function findByCoords($lat, $long)
     {
-    	$response = Http::get("https://www.metaweather.com/api/location/search/?lattlong=$lat,$long");
+    	$key = env('WEATHER_API_KEY');
+
+    	$response = Http::get("https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&appid=$key");
+
+
 		$data = $response->json();
 
 		return $data;

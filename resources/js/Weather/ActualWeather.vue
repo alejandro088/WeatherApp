@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-        <CardTodayWeather v-if="today" :today-weather="today" />
+        <CardTodayWeather v-if="today" :today-weather="today" :location="location"/>
     </div>
 </template>
 <script>
@@ -10,7 +10,7 @@ export default {
     components: {
         CardTodayWeather
     },
-    props: ['today'],
+    props: ['today', 'location'],
     data() {
         return {
             

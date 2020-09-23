@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="mx-auto sm:px-6 lg:px-8">
-            <div class="md:flex mx-12 justify-center shadow-xl sm:rounded-lg">
+            <div class="md:flex mx-12 justify-center sm:rounded-lg">
                 <CardWeather v-for="day in forecast" :key="day.index" :day-weather="day" />
             </div>
         </div>
@@ -15,8 +15,13 @@ export default {
         CardWeather
     },
     props: ['forecast'],
+    data(){
+        return {
+            
+        }
+    },
     mounted(){
-        console.log(this.forecast);
+        this.forecast.splice(-3);
     }
 }
 

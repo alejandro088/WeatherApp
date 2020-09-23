@@ -29,9 +29,9 @@
                 </div>
             </section>
             <section class="row-span-1 col-span-2">
-                <div class="mx-auto sm:px-6 lg:px-12">
+                <div class="sm:px-2 md:px-2">
                     <div class="bg-indigo-dark sm:rounded-lg">
-                        <div class="md:flex mx-12 justify-center shadow-xl sm:rounded-lg">
+                        <div class="md:flex mx-12 justify-center sm:rounded-lg">
                             <div class="text-indigo-lighter mx-2 w-28 rounded shadow-lg">
                                 <div class="h-4 bg-indigo rounded"></div>
                                 <div class="rounded-full bg-indigo h-12 w-12"></div>
@@ -123,23 +123,23 @@
             <section class="row-span-3 ">
                 <div class="mx-auto sm:px-6 lg:px-8">
                     <div class="text-indigo-lighter bg-indigo-dark shadow-xl sm:rounded-lg">
-                        <ActualWeather :today="today" />
+                        <ActualWeather :today="forecast.current" :location="place.address" />
                     </div>
                 </div>
             </section>
             <section class="row-span-1 col-span-2">
-                <div class="mx-auto sm:px-6 lg:px-12">
+                <div class="sm:px-2 md:px-2">
                     <div v-if="forecast" class="bg-indigo-dark sm:rounded-lg">
-                        <ForecastWeather :forecast="forecast" />
+                        <ForecastWeather :forecast="forecast.daily" />
                     </div>
                 </div>
             </section>
-            <section class="row-span-2 col-span-2">
+            <section v-if="forecast" class="row-span-2 col-span-2">
                 <div class="grid grid-cols-1 md:grid-cols-2 mx-12 justify-center">
-                    <CardItemWeather title="Wind Status" :item="Math.round(today.weather.wind_speed * 10) / 10" unit="mph" :wind="{direction: today.weather.wind_direction, point: today.weather.wind_direction_compass}" />
-                    <CardItemWeather title="Humidity" :item="today.weather.humidity" unit="%" />
-                    <CardItemWeather title="Visibility" :item="Math.round(today.weather.visibility * 10) / 10" unit="m" />
-                    <CardItemWeather title="Air pressure" :item="today.weather.air_pressure" unit="mb" />
+                    <CardItemWeather v-if="forecast.current" title="Wind Status" :item="Math.round(forecast.current.wind_speed * 10) / 10" unit="km/h" :wind="{direction: forecast.current.wind_deg}" />
+                    <CardItemWeather title="Humidity" :item="forecast.current.humidity" unit="%" />
+                    <CardItemWeather title="Visibility" :item="Math.round(forecast.current.visibility * 10) / 10" unit="m" />
+                    <CardItemWeather title="Air pressure" :item="forecast.current.pressure" unit="mb" />
                 </div>
             </section>
         </div>
@@ -162,22 +162,10 @@ export default {
     data() {
         return {
             loading: true,
-            today: {
-                weather: {
-                    weather_state_abbr: 'c',
-                    weather_state_name: '',
-                    the_temp: 0,
-                    applicable_date: ''
-                },
-                title: ''
-            },
-            forecast: [],
-            location: {
-                city: ''
-            },
-            myLocationWeather: [{
-                woeid: 0
-            }]
+            forecast: {},
+            location: {},
+            place: {},
+            myLocationWeather: {}
 
         }
     },
@@ -194,9 +182,14 @@ export default {
             //console.log(location)
             this.loading = true;
 
-            await this.setWeatherData(location);
+            //await this.setWeatherData(location);
+
+            console.log(location);
 
             await this.setWeatherForecast(location);
+
+            let place = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.lat}&lon=${location.lon}`);
+            this.place = await place.json();
 
             this.loading = await false;
         },
@@ -222,31 +215,26 @@ export default {
         async success(pos) {
             var crd = pos.coords;
 
-            console.log('Your current position is:');
-            console.log('Latitude : ' + crd.latitude);
-            console.log('Longitude: ' + crd.longitude);
-            console.log('More or less ' + crd.accuracy + ' meters.');
-
             this.location = crd;
 
-            const myLocationWeather = await fetch(`/api/weather/findByCoords/${this.location.latitude}/${this.location.longitude}`);
-            this.myLocationWeather = await myLocationWeather.json()
+            const myLocationWeather = await fetch(`/api/weather/forecast/${this.location.latitude}/${this.location.longitude}`);
+            this.forecast = await myLocationWeather.json()
 
-            await this.setWeatherData(this.myLocationWeather[0].woeid);
+            let place = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${this.location.latitude}&lon=${this.location.longitude}`);
+            this.place = await place.json();
+        
 
-            await this.setWeatherForecast(this.myLocationWeather[0].woeid);
+            //await this.setWeatherData(this.myLocationWeather[0].woeid);
+
+            //await this.setWeatherForecast(this.myLocationWeather[0].woeid);
 
             this.loading = await false;
         },
         error(err) {
             console.warn('ERROR(' + err.code + '): ' + err.message);
         },
-        async setWeatherData(location) {
-            const today = await fetch(`/api/weather/now/${location}`);
-            this.today = await today.json()
-        },
         async setWeatherForecast(location) {
-            const forecast = await fetch(`/api/weather/forecast/${location}`);
+            const forecast = await fetch(`/api/weather/forecast/${location.lat}/${location.lon}`);
             this.forecast = await forecast.json()
         }
     }

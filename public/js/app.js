@@ -2093,22 +2093,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       loading: true,
-      today: {
-        weather: {
-          weather_state_abbr: 'c',
-          weather_state_name: '',
-          the_temp: 0,
-          applicable_date: ''
-        },
-        title: ''
-      },
-      forecast: [],
-      location: {
-        city: ''
-      },
-      myLocationWeather: [{
-        woeid: 0
-      }]
+      forecast: {},
+      location: {},
+      place: {},
+      myLocationWeather: {}
     };
   },
   mounted: function mounted() {
@@ -2135,27 +2123,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var place;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 //console.log(location)
-                _this2.loading = true;
-                _context2.next = 3;
-                return _this2.setWeatherData(location);
+                _this2.loading = true; //await this.setWeatherData(location);
 
-              case 3:
-                _context2.next = 5;
+                console.log(location);
+                _context2.next = 4;
                 return _this2.setWeatherForecast(location);
 
-              case 5:
-                _context2.next = 7;
+              case 4:
+                _context2.next = 6;
+                return fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=".concat(location.lat, "&lon=").concat(location.lon));
+
+              case 6:
+                place = _context2.sent;
+                _context2.next = 9;
+                return place.json();
+
+              case 9:
+                _this2.place = _context2.sent;
+                _context2.next = 12;
                 return false;
 
-              case 7:
+              case 12:
                 _this2.loading = _context2.sent;
 
-              case 8:
+              case 13:
               case "end":
                 return _context2.stop();
             }
@@ -2220,42 +2217,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-        var crd, myLocationWeather;
+        var crd, myLocationWeather, place;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 crd = pos.coords;
-                console.log('Your current position is:');
-                console.log('Latitude : ' + crd.latitude);
-                console.log('Longitude: ' + crd.longitude);
-                console.log('More or less ' + crd.accuracy + ' meters.');
                 _this5.location = crd;
-                _context5.next = 8;
-                return fetch("/api/weather/findByCoords/".concat(_this5.location.latitude, "/").concat(_this5.location.longitude));
+                _context5.next = 4;
+                return fetch("/api/weather/forecast/".concat(_this5.location.latitude, "/").concat(_this5.location.longitude));
 
-              case 8:
+              case 4:
                 myLocationWeather = _context5.sent;
-                _context5.next = 11;
+                _context5.next = 7;
                 return myLocationWeather.json();
 
-              case 11:
-                _this5.myLocationWeather = _context5.sent;
-                _context5.next = 14;
-                return _this5.setWeatherData(_this5.myLocationWeather[0].woeid);
+              case 7:
+                _this5.forecast = _context5.sent;
+                _context5.next = 10;
+                return fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=".concat(_this5.location.latitude, "&lon=").concat(_this5.location.longitude));
 
-              case 14:
+              case 10:
+                place = _context5.sent;
+                _context5.next = 13;
+                return place.json();
+
+              case 13:
+                _this5.place = _context5.sent;
                 _context5.next = 16;
-                return _this5.setWeatherForecast(_this5.myLocationWeather[0].woeid);
-
-              case 16:
-                _context5.next = 18;
                 return false;
 
-              case 18:
+              case 16:
                 _this5.loading = _context5.sent;
 
-              case 19:
+              case 17:
               case "end":
                 return _context5.stop();
             }
@@ -2266,25 +2261,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     error: function error(err) {
       console.warn('ERROR(' + err.code + '): ' + err.message);
     },
-    setWeatherData: function setWeatherData(location) {
+    setWeatherForecast: function setWeatherForecast(location) {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var today;
+        var forecast;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return fetch("/api/weather/now/".concat(location));
+                return fetch("/api/weather/forecast/".concat(location.lat, "/").concat(location.lon));
 
               case 2:
-                today = _context6.sent;
+                forecast = _context6.sent;
                 _context6.next = 5;
-                return today.json();
+                return forecast.json();
 
               case 5:
-                _this6.today = _context6.sent;
+                _this6.forecast = _context6.sent;
 
               case 6:
               case "end":
@@ -2292,34 +2287,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee6);
-      }))();
-    },
-    setWeatherForecast: function setWeatherForecast(location) {
-      var _this7 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        var forecast;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                _context7.next = 2;
-                return fetch("/api/weather/forecast/".concat(location));
-
-              case 2:
-                forecast = _context7.sent;
-                _context7.next = 5;
-                return forecast.json();
-
-              case 5:
-                _this7.forecast = _context7.sent;
-
-              case 6:
-              case "end":
-                return _context7.stop();
-            }
-          }
-        }, _callee7);
       }))();
     }
   }
@@ -2355,7 +2322,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     CardTodayWeather: _Weather_CardTodayWeather__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: ['today'],
+  props: ['today', 'location'],
   data: function data() {
     return {};
   },
@@ -2434,7 +2401,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['todayWeather'],
+  props: ['todayWeather', 'location'],
   mounted: function mounted() {}
 });
 
@@ -2449,6 +2416,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -2523,6 +2491,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var _ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
@@ -2534,7 +2503,8 @@ var _ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
   data: function data() {
     return {
       finder: {
-        title: ''
+        display_name: '',
+        icon: ''
       },
       cities: []
     };
@@ -2565,7 +2535,7 @@ var _ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
       }))();
     },
     updateCity: function updateCity(location) {
-      this.$emit('search', location.woeid);
+      this.$emit('search', location);
     },
     search: _.debounce(function (loading, search, vm) {
       fetch("/api/weather/findByLocation/".concat(escape(search))).then(function (res) {
@@ -2605,8 +2575,11 @@ __webpack_require__.r(__webpack_exports__);
     CardWeather: _Weather_CardWeather__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: ['forecast'],
+  data: function data() {
+    return {};
+  },
   mounted: function mounted() {
-    console.log(this.forecast);
+    this.forecast.splice(-3);
   }
 });
 
@@ -21767,21 +21740,28 @@ var render = function() {
                   staticClass:
                     "text-indigo-lighter bg-indigo-dark shadow-xl sm:rounded-lg"
                 },
-                [_c("ActualWeather", { attrs: { today: _vm.today } })],
+                [
+                  _c("ActualWeather", {
+                    attrs: {
+                      today: _vm.forecast.current,
+                      location: _vm.place.address
+                    }
+                  })
+                ],
                 1
               )
             ])
           ]),
           _vm._v(" "),
           _c("section", { staticClass: "row-span-1 col-span-2" }, [
-            _c("div", { staticClass: "mx-auto sm:px-6 lg:px-12" }, [
+            _c("div", { staticClass: "sm:px-2 md:px-2" }, [
               _vm.forecast
                 ? _c(
                     "div",
                     { staticClass: "bg-indigo-dark sm:rounded-lg" },
                     [
                       _c("ForecastWeather", {
-                        attrs: { forecast: _vm.forecast }
+                        attrs: { forecast: _vm.forecast.daily }
                       })
                     ],
                     1
@@ -21790,53 +21770,57 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("section", { staticClass: "row-span-2 col-span-2" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "grid grid-cols-1 md:grid-cols-2 mx-12 justify-center"
-              },
-              [
-                _c("CardItemWeather", {
-                  attrs: {
-                    title: "Wind Status",
-                    item: Math.round(_vm.today.weather.wind_speed * 10) / 10,
-                    unit: "mph",
-                    wind: {
-                      direction: _vm.today.weather.wind_direction,
-                      point: _vm.today.weather.wind_direction_compass
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("CardItemWeather", {
-                  attrs: {
-                    title: "Humidity",
-                    item: _vm.today.weather.humidity,
-                    unit: "%"
-                  }
-                }),
-                _vm._v(" "),
-                _c("CardItemWeather", {
-                  attrs: {
-                    title: "Visibility",
-                    item: Math.round(_vm.today.weather.visibility * 10) / 10,
-                    unit: "m"
-                  }
-                }),
-                _vm._v(" "),
-                _c("CardItemWeather", {
-                  attrs: {
-                    title: "Air pressure",
-                    item: _vm.today.weather.air_pressure,
-                    unit: "mb"
-                  }
-                })
-              ],
-              1
-            )
-          ])
+          _vm.forecast
+            ? _c("section", { staticClass: "row-span-2 col-span-2" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "grid grid-cols-1 md:grid-cols-2 mx-12 justify-center"
+                  },
+                  [
+                    _vm.forecast.current
+                      ? _c("CardItemWeather", {
+                          attrs: {
+                            title: "Wind Status",
+                            item:
+                              Math.round(_vm.forecast.current.wind_speed * 10) /
+                              10,
+                            unit: "km/h",
+                            wind: { direction: _vm.forecast.current.wind_deg }
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("CardItemWeather", {
+                      attrs: {
+                        title: "Humidity",
+                        item: _vm.forecast.current.humidity,
+                        unit: "%"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("CardItemWeather", {
+                      attrs: {
+                        title: "Visibility",
+                        item:
+                          Math.round(_vm.forecast.current.visibility * 10) / 10,
+                        unit: "m"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("CardItemWeather", {
+                      attrs: {
+                        title: "Air pressure",
+                        item: _vm.forecast.current.pressure,
+                        unit: "mb"
+                      }
+                    })
+                  ],
+                  1
+                )
+              ])
+            : _vm._e()
         ])
       : _vm._e()
   ])
@@ -21887,14 +21871,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("section", { staticClass: "row-span-1 col-span-2" }, [
-      _c("div", { staticClass: "mx-auto sm:px-6 lg:px-12" }, [
+      _c("div", { staticClass: "sm:px-2 md:px-2" }, [
         _c("div", { staticClass: "bg-indigo-dark sm:rounded-lg" }, [
           _c(
             "div",
-            {
-              staticClass:
-                "md:flex mx-12 justify-center shadow-xl sm:rounded-lg"
-            },
+            { staticClass: "md:flex mx-12 justify-center sm:rounded-lg" },
             [
               _c(
                 "div",
@@ -22106,7 +22087,9 @@ var render = function() {
     { staticClass: "flex justify-center" },
     [
       _vm.today
-        ? _c("CardTodayWeather", { attrs: { "today-weather": _vm.today } })
+        ? _c("CardTodayWeather", {
+            attrs: { "today-weather": _vm.today, location: _vm.location }
+          })
         : _vm._e()
     ],
     1
@@ -22157,7 +22140,7 @@ var render = function() {
                   "i",
                   {
                     staticClass: "material-icons",
-                    class: "dir-" + _vm.wind.point.toLowerCase()
+                    class: "dir-" + _vm.wind.direction
                   },
                   [_vm._v("arrow_downward")]
                 )
@@ -22166,7 +22149,7 @@ var render = function() {
           _vm._v(" "),
           _vm.wind
             ? _c("p", { staticClass: "text-base text-center py-4" }, [
-                _vm._v("\n        " + _vm._s(_vm.wind.point) + "\n    ")
+                _vm._v("\n        " + _vm._s(_vm.wind.direction) + "\n    ")
               ])
             : _vm._e()
         ]
@@ -22203,32 +22186,42 @@ var render = function() {
         staticClass: "w-full",
         attrs: {
           src:
-            "/images/" + _vm.todayWeather.weather.weather_state_abbr + ".png",
-          alt: _vm.todayWeather.weather.weather_state_name
+            "http://openweathermap.org/img/wn/" +
+            _vm.todayWeather.weather[0].icon +
+            "@2x.png",
+          alt: _vm.todayWeather.weather[0].main
         }
       }),
       _vm._v(" "),
       _c("div", { staticClass: "px-6 py-4" }, [
         _c("div", { staticClass: "font-bold text-xl mb-2" }, [
-          _vm._v(_vm._s(_vm.todayWeather.weather.weather_state_name))
+          _vm._v(_vm._s(_vm.todayWeather.weather[0].main))
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "text-5xl" }, [
           _vm._v(
             "\n            " +
-              _vm._s(Math.round(_vm.todayWeather.weather.the_temp * 10) / 10) +
+              _vm._s(Math.round(_vm.todayWeather.temp * 10) / 10) +
               "ºC\n        "
           )
         ]),
         _vm._v(" "),
-        _c("p", [
-          _c("i", { staticClass: "material-icons md-36" }, [_vm._v("place")]),
-          _vm._v(" " + _vm._s(_vm.todayWeather.title) + "\n        ")
-        ]),
+        _vm.location
+          ? _c("p", [
+              _c("i", { staticClass: "material-icons md-36" }, [
+                _vm._v("place")
+              ]),
+              _vm._v(
+                " " +
+                  _vm._s(
+                    _vm.location.city ? _vm.location.city : _vm.location.town
+                  ) +
+                  "\n        "
+              )
+            ])
+          : _vm._e(),
         _vm._v(" "),
-        _c("p", [
-          _vm._v("  " + _vm._s(_vm.todayWeather.weather.applicable_date) + "  ")
-        ])
+        _c("p", [_vm._v("  " + _vm._s(_vm.todayWeather.dt) + "  ")])
       ])
     ]
   )
@@ -22261,26 +22254,27 @@ var render = function() {
         { staticClass: "text-indigo-lighter mx-2 w-28 rounded shadow-lg" },
         [
           _c("p", { staticClass: "text-base" }, [
-            _vm._v(
-              "\n        " + _vm._s(_vm.dayWeather.applicable_date) + "\n    "
-            )
+            _vm._v("\n        " + _vm._s(_vm.dayWeather.dt) + "\n    ")
           ]),
           _vm._v(" "),
           _c("img", {
             staticClass: "w-20",
             attrs: {
-              src: "/images/" + _vm.dayWeather.weather_state_abbr + ".png",
-              alt: _vm.dayWeather.weather_state_name
+              src:
+                "http://openweathermap.org/img/wn/" +
+                _vm.dayWeather.weather[0].icon +
+                "@2x.png",
+              alt: _vm.dayWeather.weather[0].main
             }
           }),
           _vm._v(" "),
           _c("div", { staticClass: "px-2 py-2" }, [
             _c("p", { staticClass: "text-base" }, [
               _vm._v(
-                "\n            " +
-                  _vm._s(Math.round(_vm.dayWeather.min_temp * 10) / 10) +
-                  "ºC - " +
-                  _vm._s(Math.round(_vm.dayWeather.max_temp * 10) / 10) +
+                "\n            Min: " +
+                  _vm._s(Math.round(_vm.dayWeather.temp.min * 10) / 10) +
+                  "ºC\n            Max: " +
+                  _vm._s(Math.round(_vm.dayWeather.temp.max * 10) / 10) +
                   "ºC\n        "
               )
             ])
@@ -22326,7 +22320,7 @@ var render = function() {
                   attrs: {
                     filterable: false,
                     options: _vm.cities,
-                    label: "title"
+                    label: "display_name"
                   },
                   on: { input: _vm.updateCity, search: _vm.find },
                   scopedSlots: _vm._u([
@@ -22360,15 +22354,19 @@ var render = function() {
                     {
                       key: "option",
                       fn: function(ref) {
-                        var title = ref.title
+                        var display_name = ref.display_name
+                        var icon = ref.icon
                         return [
                           _c(
                             "div",
                             { staticClass: "d-center cursor-pointer" },
                             [
+                              _c("img", {
+                                attrs: { src: icon, alt: display_name }
+                              }),
                               _vm._v(
-                                "\n                               " +
-                                  _vm._s(title) +
+                                "\n                                " +
+                                  _vm._s(display_name) +
                                   "\n                            "
                               )
                             ]
@@ -22379,7 +22377,7 @@ var render = function() {
                     {
                       key: "selected-option",
                       fn: function(ref) {
-                        var title = ref.title
+                        var display_name = ref.display_name
                         return [
                           _c("div", { staticClass: "selected d-center" }, [
                             _c("i", { staticClass: "material-icons" }, [
@@ -22387,7 +22385,7 @@ var render = function() {
                             ]),
                             _vm._v(
                               " " +
-                                _vm._s(title) +
+                                _vm._s(display_name) +
                                 "\n                            "
                             )
                           ])
@@ -22447,7 +22445,7 @@ var render = function() {
     _c("div", { staticClass: "mx-auto sm:px-6 lg:px-8" }, [
       _c(
         "div",
-        { staticClass: "md:flex mx-12 justify-center shadow-xl sm:rounded-lg" },
+        { staticClass: "md:flex mx-12 justify-center sm:rounded-lg" },
         _vm._l(_vm.forecast, function(day) {
           return _c("CardWeather", {
             key: day.index,

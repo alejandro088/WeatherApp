@@ -7,11 +7,11 @@
             <p class="font-bold text-center text-3xl mb-2">{{ item }}{{ unit }}</p>
         </div>
         <p v-if="wind" class="text-base text-center wind">
-            <i class="material-icons" :class="`dir-${wind.point.toLowerCase()}`">arrow_downward</i>
+            <i class="material-icons" :class="`dir-${wind.direction}`">arrow_downward</i>
         </p>
         
         <p v-if="wind" class="text-base text-center py-4">
-            {{ wind.point }}
+            {{ wind.direction }}
         </p>
     </div>
 </template>
