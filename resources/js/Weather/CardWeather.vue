@@ -3,7 +3,7 @@
         <p class="text-base">
             {{ dayWeather.dt }}
         </p>
-        <img class="w-20" :src="`http://openweathermap.org/img/wn/${dayWeather.weather[0].icon}@2x.png`" :alt="dayWeather.weather[0].main">
+        <img class="w-20" :src="`https://openweathermap.org/img/wn/${dayWeather.weather[0].icon}@2x.png`" :alt="dayWeather.weather[0].main">
         <div class="px-2 py-2">
             <p class="text-base">
                 Min: {{ Math.round(dayWeather.temp.min * 10) / 10 }}ºC

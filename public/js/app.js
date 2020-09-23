@@ -22186,7 +22186,7 @@ var render = function() {
         staticClass: "w-full",
         attrs: {
           src:
-            "http://openweathermap.org/img/wn/" +
+            "https://openweathermap.org/img/wn/" +
             _vm.todayWeather.weather[0].icon +
             "@2x.png",
           alt: _vm.todayWeather.weather[0].main
@@ -22261,7 +22261,7 @@ var render = function() {
             staticClass: "w-20",
             attrs: {
               src:
-                "http://openweathermap.org/img/wn/" +
+                "https://openweathermap.org/img/wn/" +
                 _vm.dayWeather.weather[0].icon +
                 "@2x.png",
               alt: _vm.dayWeather.weather[0].main
