@@ -1,5 +1,5 @@
 <template>
-    <div v-if="item" class="text-indigo-lighter m-6 rounded shadow-lg text-center">
+    <div v-if="item" class="text-weather-lighter m-6 rounded shadow-lg text-center">
         <p class="text-base text-center">
             {{ title }}
         </p>
@@ -7,7 +7,7 @@
             <p class="font-bold text-center text-3xl mb-2">{{ item }}{{ unit }}</p>
         </div>
         <p v-if="wind" class="text-base text-center wind">
-            <i class="material-icons" :class="`dir-${wind.direction}`">arrow_downward</i>
+            <i class="material-icons" :style="`transform: rotate(${wind.direction}deg);`">arrow_downward</i>
         </p>
         
         <p v-if="wind" class="text-base text-center py-4">

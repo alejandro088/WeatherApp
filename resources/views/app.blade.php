@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
         
     </head>
-    <body class="bg-indigo-dark font-sans antialiased">
+    <body class="bg-weather-dark font-sans antialiased">
         <div id="app"></div>
 
         <script src="/js/app.js" defer></script>

@@ -1926,6 +1926,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Weather_ForecastWeather__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../Weather/ForecastWeather */ "./resources/js/Weather/ForecastWeather.vue");
 /* harmony import */ var _Weather_ActualWeather__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../Weather/ActualWeather */ "./resources/js/Weather/ActualWeather.vue");
 /* harmony import */ var _Weather_CardItemWeather__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../Weather/CardItemWeather */ "./resources/js/Weather/CardItemWeather.vue");
+/* harmony import */ var _Weather_SkeletonWeather__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../Weather/SkeletonWeather */ "./resources/js/Weather/SkeletonWeather.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1973,112 +1974,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
@@ -2088,7 +1984,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     FindLocation: _Weather_FindLocation__WEBPACK_IMPORTED_MODULE_1__["default"],
     ForecastWeather: _Weather_ForecastWeather__WEBPACK_IMPORTED_MODULE_2__["default"],
     ActualWeather: _Weather_ActualWeather__WEBPACK_IMPORTED_MODULE_3__["default"],
-    CardItemWeather: _Weather_CardItemWeather__WEBPACK_IMPORTED_MODULE_4__["default"]
+    CardItemWeather: _Weather_CardItemWeather__WEBPACK_IMPORTED_MODULE_4__["default"],
+    SkeletonWeather: _Weather_SkeletonWeather__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   data: function data() {
     return {
@@ -2199,7 +2096,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 options = {
                   enableHighAccuracy: true,
-                  timeout: 5000,
+                  timeout: 10000,
                   maximumAge: 0
                 };
                 _context4.next = 3;
@@ -2402,7 +2299,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['todayWeather', 'location'],
-  mounted: function mounted() {}
+  mounted: function mounted() {},
+  computed: {
+    dateAt: function dateAt() {
+      var dateFormatted = new Date(this.todayWeather.dt * 1000);
+      return dateFormatted.getDate() + ' - ' + dateFormatted.getMonth();
+    }
+  }
 });
 
 /***/ }),
@@ -2432,7 +2335,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['dayWeather'],
-  mounted: function mounted() {}
+  mounted: function mounted() {},
+  computed: {
+    dateAt: function dateAt() {
+      var dateFormatted = new Date(this.dayWeather.dt * 1000);
+      return dateFormatted.getDate() + ' - ' + dateFormatted.getMonth();
+    }
+  }
 });
 
 /***/ }),
@@ -2579,7 +2488,8 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   mounted: function mounted() {
-    this.forecast.splice(-3);
+    this.forecast.splice(0, 1);
+    this.forecast.splice(-2);
   }
 });
 
@@ -21687,7 +21597,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("header", { staticClass: "bg-indigo-dark shadow" }, [
+    _c("header", { staticClass: "bg-weather-dark shadow" }, [
       _c(
         "div",
         { staticClass: "max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8" },
@@ -21696,7 +21606,7 @@ var render = function() {
             "h2",
             {
               staticClass:
-                "font-semibold text-xl text-indigo-lighter leading-tight"
+                "font-semibold text-xl text-weather-lighter leading-tight"
             },
             [
               _vm._v("\n                WeatherApp\n                "),
@@ -21726,7 +21636,8 @@ var render = function() {
       ? _c(
           "div",
           { staticClass: "grid md:grid-flow-col gap-4 animate-pulse" },
-          [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)]
+          [_c("SkeletonWeather")],
+          1
         )
       : _vm._e(),
     _vm._v(" "),
@@ -21738,7 +21649,7 @@ var render = function() {
                 "div",
                 {
                   staticClass:
-                    "text-indigo-lighter bg-indigo-dark shadow-xl sm:rounded-lg"
+                    "text-weather-lighter bg-weather-dark shadow-xl sm:rounded-lg"
                 },
                 [
                   _c("ActualWeather", {
@@ -21758,7 +21669,7 @@ var render = function() {
               _vm.forecast
                 ? _c(
                     "div",
-                    { staticClass: "bg-indigo-dark sm:rounded-lg" },
+                    { staticClass: "bg-weather-dark sm:rounded-lg" },
                     [
                       _c("ForecastWeather", {
                         attrs: { forecast: _vm.forecast.daily }
@@ -21783,9 +21694,7 @@ var render = function() {
                       ? _c("CardItemWeather", {
                           attrs: {
                             title: "Wind Status",
-                            item:
-                              Math.round(_vm.forecast.current.wind_speed * 10) /
-                              10,
+                            item: _vm.forecast.current.wind_speed * 3.6,
                             unit: "km/h",
                             wind: { direction: _vm.forecast.current.wind_deg }
                           }
@@ -21825,242 +21734,7 @@ var render = function() {
       : _vm._e()
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "row-span-3 " }, [
-      _c("div", { staticClass: "mx-auto sm:px-6 lg:px-8" }, [
-        _c(
-          "div",
-          {
-            staticClass:
-              "text-indigo-lighter bg-indigo-dark shadow-xl sm:rounded-lg"
-          },
-          [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "text-indigo-lighter w-48 rounded shadow-lg bg-gray-900"
-              },
-              [
-                _c("div", { staticClass: "rounded-full bg-indigo h-12 w-12" }),
-                _vm._v(" "),
-                _c("div", { staticClass: "px-6 py-4" }, [
-                  _c("div", { staticClass: "space-y-2" }, [
-                    _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "h-4 bg-indigo rounded" })
-                  ])
-                ])
-              ]
-            )
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "row-span-1 col-span-2" }, [
-      _c("div", { staticClass: "sm:px-2 md:px-2" }, [
-        _c("div", { staticClass: "bg-indigo-dark sm:rounded-lg" }, [
-          _c(
-            "div",
-            { staticClass: "md:flex mx-12 justify-center sm:rounded-lg" },
-            [
-              _c(
-                "div",
-                {
-                  staticClass: "text-indigo-lighter mx-2 w-28 rounded shadow-lg"
-                },
-                [
-                  _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-                  _vm._v(" "),
-                  _c("div", {
-                    staticClass: "rounded-full bg-indigo h-12 w-12"
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "px-2 py-2" }, [
-                    _c("div", { staticClass: "h-4 bg-indigo rounded" })
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "text-indigo-lighter mx-2 w-28 rounded shadow-lg"
-                },
-                [
-                  _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-                  _vm._v(" "),
-                  _c("div", {
-                    staticClass: "rounded-full bg-indigo h-12 w-12"
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "px-2 py-2" }, [
-                    _c("div", { staticClass: "h-4 bg-indigo rounded" })
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "text-indigo-lighter mx-2 w-28 rounded shadow-lg"
-                },
-                [
-                  _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-                  _vm._v(" "),
-                  _c("div", {
-                    staticClass: "rounded-full bg-indigo h-12 w-12"
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "px-2 py-2" }, [
-                    _c("div", { staticClass: "h-4 bg-indigo rounded" })
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "text-indigo-lighter mx-2 w-28 rounded shadow-lg"
-                },
-                [
-                  _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-                  _vm._v(" "),
-                  _c("div", {
-                    staticClass: "rounded-full bg-indigo h-12 w-12"
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "px-2 py-2" }, [
-                    _c("div", { staticClass: "h-4 bg-indigo rounded" })
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "text-indigo-lighter mx-2 w-28 rounded shadow-lg"
-                },
-                [
-                  _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-                  _vm._v(" "),
-                  _c("div", {
-                    staticClass: "rounded-full bg-indigo h-12 w-12"
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "px-2 py-2" }, [
-                    _c("div", { staticClass: "h-4 bg-indigo rounded" })
-                  ])
-                ]
-              )
-            ]
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "row-span-2 col-span-2" }, [
-      _c(
-        "div",
-        { staticClass: "grid grid-cols-1 md:grid-cols-2 mx-12 justify-center" },
-        [
-          _c(
-            "div",
-            {
-              staticClass:
-                "text-indigo-lighter m-6 rounded shadow-lg text-center"
-            },
-            [
-              _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-6 py-4" }, [
-                _c("div", { staticClass: "h-8 bg-indigo rounded" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "h-4 bg-indigo rounded" })
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "text-indigo-lighter m-6 rounded shadow-lg text-center"
-            },
-            [
-              _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-6 py-4" }, [
-                _c("div", { staticClass: "h-8 bg-indigo rounded" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "h-4 bg-indigo rounded" })
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "text-indigo-lighter m-6 rounded shadow-lg text-center"
-            },
-            [
-              _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-6 py-4" }, [
-                _c("div", { staticClass: "h-8 bg-indigo rounded" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "h-4 bg-indigo rounded" })
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "text-indigo-lighter m-6 rounded shadow-lg text-center"
-            },
-            [
-              _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-6 py-4" }, [
-                _c("div", { staticClass: "h-8 bg-indigo rounded" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "h-4 bg-indigo rounded" }),
-              _vm._v(" "),
-              _c("div", { staticClass: "h-4 bg-indigo rounded" })
-            ]
-          )
-        ]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -22121,7 +21795,7 @@ var render = function() {
     ? _c(
         "div",
         {
-          staticClass: "text-indigo-lighter m-6 rounded shadow-lg text-center"
+          staticClass: "text-weather-lighter m-6 rounded shadow-lg text-center"
         },
         [
           _c("p", { staticClass: "text-base text-center" }, [
@@ -22140,7 +21814,7 @@ var render = function() {
                   "i",
                   {
                     staticClass: "material-icons",
-                    class: "dir-" + _vm.wind.direction
+                    style: "transform: rotate(" + _vm.wind.direction + "deg);"
                   },
                   [_vm._v("arrow_downward")]
                 )
@@ -22180,7 +21854,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "text-indigo-lighter w-48 rounded shadow-lg bg-gray-900" },
+    { staticClass: "text-weather-lighter w-48 rounded shadow-lg bg-gray-900" },
     [
       _c("img", {
         staticClass: "w-full",
@@ -22221,7 +21895,7 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _c("p", [_vm._v("  " + _vm._s(_vm.todayWeather.dt) + "  ")])
+        _c("p", [_vm._v("  " + _vm._s(_vm.dateAt) + "  ")])
       ])
     ]
   )
@@ -22251,10 +21925,10 @@ var render = function() {
   return _vm.dayWeather
     ? _c(
         "div",
-        { staticClass: "text-indigo-lighter mx-2 w-28 rounded shadow-lg" },
+        { staticClass: "text-weather-lighter mx-2 w-28 rounded shadow-lg" },
         [
           _c("p", { staticClass: "text-base" }, [
-            _vm._v("\n        " + _vm._s(_vm.dayWeather.dt) + "\n    ")
+            _vm._v("\n        " + _vm._s(_vm.dateAt) + "\n    ")
           ]),
           _vm._v(" "),
           _c("img", {
@@ -22316,7 +21990,7 @@ var render = function() {
               _c(
                 "v-select",
                 {
-                  staticClass: "bg-indigo",
+                  staticClass: "bg-weather",
                   attrs: {
                     filterable: false,
                     options: _vm.cities,
@@ -22379,16 +22053,23 @@ var render = function() {
                       fn: function(ref) {
                         var display_name = ref.display_name
                         return [
-                          _c("div", { staticClass: "selected d-center" }, [
-                            _c("i", { staticClass: "material-icons" }, [
-                              _vm._v("place")
-                            ]),
-                            _vm._v(
-                              " " +
-                                _vm._s(display_name) +
-                                "\n                            "
-                            )
-                          ])
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "selected d-center text-weather-lighter"
+                            },
+                            [
+                              _c("i", { staticClass: "material-icons" }, [
+                                _vm._v("place")
+                              ]),
+                              _vm._v(
+                                " " +
+                                  _vm._s(display_name) +
+                                  "\n                            "
+                              )
+                            ]
+                          )
                         ]
                       }
                     }
@@ -22458,6 +22139,265 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Weather/SkeletonWeather.vue?vue&type=template&id=212f2304&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Weather/SkeletonWeather.vue?vue&type=template&id=212f2304& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("section", { staticClass: "row-span-3 " }, [
+        _c("div", { staticClass: "mx-auto sm:px-6 lg:px-8" }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "text-weather-lighter bg-weather-dark shadow-xl sm:rounded-lg"
+            },
+            [
+              _c(
+                "div",
+                { staticClass: "text-weather-lighter w-48 rounded shadow-lg" },
+                [
+                  _c("div", {
+                    staticClass: "rounded-full bg-weather h-12 w-12"
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "px-6 py-4" }, [
+                    _c("div", { staticClass: "space-y-2" }, [
+                      _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "h-4 bg-weather rounded" })
+                    ])
+                  ])
+                ]
+              )
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("section", { staticClass: "row-span-1 col-span-2" }, [
+        _c("div", { staticClass: "sm:px-2 md:px-2" }, [
+          _c("div", { staticClass: "bg-weather-dark sm:rounded-lg" }, [
+            _c(
+              "div",
+              { staticClass: "md:flex mx-12 justify-center sm:rounded-lg" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "text-weather-lighter mx-2 w-28 rounded shadow-lg"
+                  },
+                  [
+                    _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                    _vm._v(" "),
+                    _c("div", {
+                      staticClass: "rounded-full bg-weather h-12 w-12"
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "px-2 py-2" }, [
+                      _c("div", { staticClass: "h-4 bg-weather rounded" })
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "text-weather-lighter mx-2 w-28 rounded shadow-lg"
+                  },
+                  [
+                    _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                    _vm._v(" "),
+                    _c("div", {
+                      staticClass: "rounded-full bg-weather h-12 w-12"
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "px-2 py-2" }, [
+                      _c("div", { staticClass: "h-4 bg-weather rounded" })
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "text-weather-lighter mx-2 w-28 rounded shadow-lg"
+                  },
+                  [
+                    _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                    _vm._v(" "),
+                    _c("div", {
+                      staticClass: "rounded-full bg-weather h-12 w-12"
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "px-2 py-2" }, [
+                      _c("div", { staticClass: "h-4 bg-weather rounded" })
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "text-weather-lighter mx-2 w-28 rounded shadow-lg"
+                  },
+                  [
+                    _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                    _vm._v(" "),
+                    _c("div", {
+                      staticClass: "rounded-full bg-weather h-12 w-12"
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "px-2 py-2" }, [
+                      _c("div", { staticClass: "h-4 bg-weather rounded" })
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "text-weather-lighter mx-2 w-28 rounded shadow-lg"
+                  },
+                  [
+                    _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                    _vm._v(" "),
+                    _c("div", {
+                      staticClass: "rounded-full bg-weather h-12 w-12"
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "px-2 py-2" }, [
+                      _c("div", { staticClass: "h-4 bg-weather rounded" })
+                    ])
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("section", { staticClass: "row-span-2 col-span-2" }, [
+        _c(
+          "div",
+          {
+            staticClass: "grid grid-cols-1 md:grid-cols-2 mx-12 justify-center"
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "text-weather-lighter m-6 rounded shadow-lg text-center"
+              },
+              [
+                _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "px-6 py-4" }, [
+                  _c("div", { staticClass: "h-8 bg-weather rounded" })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "h-4 bg-weather rounded" })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "text-weather-lighter m-6 rounded shadow-lg text-center"
+              },
+              [
+                _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "px-6 py-4" }, [
+                  _c("div", { staticClass: "h-8 bg-weather rounded" })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "h-4 bg-weather rounded" })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "text-weather-lighter m-6 rounded shadow-lg text-center"
+              },
+              [
+                _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "px-6 py-4" }, [
+                  _c("div", { staticClass: "h-8 bg-weather rounded" })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "h-4 bg-weather rounded" })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "text-weather-lighter m-6 rounded shadow-lg text-center"
+              },
+              [
+                _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "px-6 py-4" }, [
+                  _c("div", { staticClass: "h-8 bg-weather rounded" })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "h-4 bg-weather rounded" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "h-4 bg-weather rounded" })
+              ]
+            )
+          ]
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -35163,6 +35103,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ForecastWeather_vue_vue_type_template_id_229537e0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ForecastWeather_vue_vue_type_template_id_229537e0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Weather/SkeletonWeather.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/Weather/SkeletonWeather.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SkeletonWeather_vue_vue_type_template_id_212f2304___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SkeletonWeather.vue?vue&type=template&id=212f2304& */ "./resources/js/Weather/SkeletonWeather.vue?vue&type=template&id=212f2304&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _SkeletonWeather_vue_vue_type_template_id_212f2304___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SkeletonWeather_vue_vue_type_template_id_212f2304___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Weather/SkeletonWeather.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Weather/SkeletonWeather.vue?vue&type=template&id=212f2304&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/Weather/SkeletonWeather.vue?vue&type=template&id=212f2304& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SkeletonWeather_vue_vue_type_template_id_212f2304___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SkeletonWeather.vue?vue&type=template&id=212f2304& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Weather/SkeletonWeather.vue?vue&type=template&id=212f2304&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SkeletonWeather_vue_vue_type_template_id_212f2304___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SkeletonWeather_vue_vue_type_template_id_212f2304___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

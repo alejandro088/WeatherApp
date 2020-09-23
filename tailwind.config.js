@@ -10,10 +10,11 @@ module.exports = {
             },
         },
         colors: {
-          indigo: {
-            lighter: '#b3bcf5',
-            default: '#5c6ac4',
-            dark: '#202e78',
+          weather: {
+            lighter: '#bbe1fa',
+            default: '#0f4c75',
+            dark: '#1b262c',
+            info: '#3282b8'
           }
         }
     },

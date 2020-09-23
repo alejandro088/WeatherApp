@@ -21,7 +21,8 @@ export default {
         }
     },
     mounted(){
-        this.forecast.splice(-3);
+        this.forecast.splice(0, 1);
+        this.forecast.splice(-2);
     }
 }
 

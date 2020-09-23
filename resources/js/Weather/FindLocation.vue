@@ -4,7 +4,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-xl sm:rounded-lg">
                     <div class="items-center border-b border-teal-500 py-2">
-                        <v-select class="bg-indigo" v-model="finder" :filterable="false" :options="cities" @input="updateCity" @search="find" label="display_name">
+                        <v-select class="bg-weather" v-model="finder" :filterable="false" :options="cities" @input="updateCity" @search="find" label="display_name">
                             <template #list-header>
                                 <div class="cursor-pointer" @click="$emit('detect')">
                                     <span class="material-icons">my_location</span> 
@@ -21,7 +21,7 @@
                                 </div>
                             </template>
                             <template #selected-option="{ display_name }">
-                                <div class="selected d-center">
+                                <div class="selected d-center text-weather-lighter">
                                      <i class="material-icons">place</i> {{ display_name }}
                                 </div>
                             </template>

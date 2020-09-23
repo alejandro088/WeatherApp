@@ -14,7 +14,7 @@ Cumplir las historias de usuario a continuación:
 - [x] Puedo ver el porcentaje de humedad
 - [x] Puedo ver el indicador de visibilidad
 - [x] Puedo ver el número de presión del aire
-- [ ]  (opcional): Puedo solicitar mi tiempo de ubicación actual
+- [x]  (opcional): Puedo solicitar mi tiempo de ubicación actual
 - [ ]  (opcional): Puedo convertir la temperatura en Celcius a Fahrenheit y viceversa
 Icono: https://google.github.io/material-design-icons/
 

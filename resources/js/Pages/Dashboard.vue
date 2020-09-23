@@ -1,9 +1,9 @@
 <template>
     <div>
         <!-- Page Heading -->
-        <header class="bg-indigo-dark shadow">
+        <header class="bg-weather-dark shadow">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                <h2 class="font-semibold text-xl text-indigo-lighter leading-tight">
+                <h2 class="font-semibold text-xl text-weather-lighter leading-tight">
                     WeatherApp
                     <span class="material-icons cursor-pointer" @click="changeToMyLocation">my_location</span>
                     <FindLocation @detect="changeToMyLocation" @search="changeLocation" />
@@ -11,132 +11,26 @@
             </div>
         </header>
         <div v-if="loading" class="grid md:grid-flow-col gap-4 animate-pulse">
-            <section class="row-span-3 ">
-                <div class="mx-auto sm:px-6 lg:px-8">
-                    <div class="text-indigo-lighter bg-indigo-dark shadow-xl sm:rounded-lg">
-                        <div class="text-indigo-lighter w-48 rounded shadow-lg bg-gray-900">
-                            <div class="rounded-full bg-indigo h-12 w-12"></div>
-                            <div class="px-6 py-4">
-                                <div class="space-y-2">
-                                    <div class="h-4 bg-indigo rounded"></div>
-                                    <div class="h-4 bg-indigo rounded"></div>
-                                    <div class="h-4 bg-indigo rounded"></div>
-                                    <div class="h-4 bg-indigo rounded"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="row-span-1 col-span-2">
-                <div class="sm:px-2 md:px-2">
-                    <div class="bg-indigo-dark sm:rounded-lg">
-                        <div class="md:flex mx-12 justify-center sm:rounded-lg">
-                            <div class="text-indigo-lighter mx-2 w-28 rounded shadow-lg">
-                                <div class="h-4 bg-indigo rounded"></div>
-                                <div class="rounded-full bg-indigo h-12 w-12"></div>
-                                <div class="px-2 py-2">
-                                    <div class="h-4 bg-indigo rounded"></div>
-                                </div>
-                            </div>
-
-                            <div class="text-indigo-lighter mx-2 w-28 rounded shadow-lg">
-                                <div class="h-4 bg-indigo rounded"></div>
-                                <div class="rounded-full bg-indigo h-12 w-12"></div>
-                                <div class="px-2 py-2">
-                                    <div class="h-4 bg-indigo rounded"></div>
-                                </div>
-                            </div>
-
-                            <div class="text-indigo-lighter mx-2 w-28 rounded shadow-lg">
-                                <div class="h-4 bg-indigo rounded"></div>
-                                <div class="rounded-full bg-indigo h-12 w-12"></div>
-                                <div class="px-2 py-2">
-                                    <div class="h-4 bg-indigo rounded"></div>
-                                </div>
-                            </div>
-
-                            <div class="text-indigo-lighter mx-2 w-28 rounded shadow-lg">
-                                <div class="h-4 bg-indigo rounded"></div>
-                                <div class="rounded-full bg-indigo h-12 w-12"></div>
-                                <div class="px-2 py-2">
-                                    <div class="h-4 bg-indigo rounded"></div>
-                                </div>
-                            </div>
-
-                            <div class="text-indigo-lighter mx-2 w-28 rounded shadow-lg">
-                                <div class="h-4 bg-indigo rounded"></div>
-                                <div class="rounded-full bg-indigo h-12 w-12"></div>
-                                <div class="px-2 py-2">
-                                    <div class="h-4 bg-indigo rounded"></div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="row-span-2 col-span-2">
-                <div class="grid grid-cols-1 md:grid-cols-2 mx-12 justify-center">
-                    <div class="text-indigo-lighter m-6 rounded shadow-lg text-center">
-                        <div class="h-4 bg-indigo rounded"></div>
-                        <div class="px-6 py-4">
-                            <div class="h-8 bg-indigo rounded"></div>
-                        </div>
-                        <div class="h-4 bg-indigo rounded"></div>
-                        <div class="h-4 bg-indigo rounded"></div>
-                    </div>
-
-                    <div class="text-indigo-lighter m-6 rounded shadow-lg text-center">
-                        <div class="h-4 bg-indigo rounded"></div>
-                        <div class="px-6 py-4">
-                            <div class="h-8 bg-indigo rounded"></div>
-                        </div>
-                        <div class="h-4 bg-indigo rounded"></div>
-                        <div class="h-4 bg-indigo rounded"></div>
-                    </div>
-
-                    <div class="text-indigo-lighter m-6 rounded shadow-lg text-center">
-                        <div class="h-4 bg-indigo rounded"></div>
-                        <div class="px-6 py-4">
-                            <div class="h-8 bg-indigo rounded"></div>
-                        </div>
-                        <div class="h-4 bg-indigo rounded"></div>
-                        <div class="h-4 bg-indigo rounded"></div>
-                    </div>
-
-                    <div class="text-indigo-lighter m-6 rounded shadow-lg text-center">
-                        <div class="h-4 bg-indigo rounded"></div>
-                        <div class="px-6 py-4">
-                            <div class="h-8 bg-indigo rounded"></div>
-                        </div>
-                        <div class="h-4 bg-indigo rounded"></div>
-                        <div class="h-4 bg-indigo rounded"></div>
-                    </div>
-
-
-                </div>
-            </section>
+            <SkeletonWeather />
         </div>
         <div v-if="!loading" class="grid md:grid-flow-col gap-4">
             <section class="row-span-3 ">
                 <div class="mx-auto sm:px-6 lg:px-8">
-                    <div class="text-indigo-lighter bg-indigo-dark shadow-xl sm:rounded-lg">
+                    <div class="text-weather-lighter bg-weather-dark shadow-xl sm:rounded-lg">
                         <ActualWeather :today="forecast.current" :location="place.address" />
                     </div>
                 </div>
             </section>
             <section class="row-span-1 col-span-2">
                 <div class="sm:px-2 md:px-2">
-                    <div v-if="forecast" class="bg-indigo-dark sm:rounded-lg">
+                    <div v-if="forecast" class="bg-weather-dark sm:rounded-lg">
                         <ForecastWeather :forecast="forecast.daily" />
                     </div>
                 </div>
             </section>
             <section v-if="forecast" class="row-span-2 col-span-2">
                 <div class="grid grid-cols-1 md:grid-cols-2 mx-12 justify-center">
-                    <CardItemWeather v-if="forecast.current" title="Wind Status" :item="Math.round(forecast.current.wind_speed * 10) / 10" unit="km/h" :wind="{direction: forecast.current.wind_deg}" />
+                    <CardItemWeather v-if="forecast.current" title="Wind Status" :item="forecast.current.wind_speed * 3.6" unit="km/h" :wind="{direction: forecast.current.wind_deg}" />
                     <CardItemWeather title="Humidity" :item="forecast.current.humidity" unit="%" />
                     <CardItemWeather title="Visibility" :item="Math.round(forecast.current.visibility * 10) / 10" unit="m" />
                     <CardItemWeather title="Air pressure" :item="forecast.current.pressure" unit="mb" />
@@ -150,6 +44,7 @@ import FindLocation from './../Weather/FindLocation'
 import ForecastWeather from './../Weather/ForecastWeather'
 import ActualWeather from './../Weather/ActualWeather'
 import CardItemWeather from './../Weather/CardItemWeather'
+import SkeletonWeather from './../Weather/SkeletonWeather'
 
 
 export default {
@@ -157,7 +52,8 @@ export default {
         FindLocation,
         ForecastWeather,
         ActualWeather,
-        CardItemWeather
+        CardItemWeather,
+        SkeletonWeather
     },
     data() {
         return {
@@ -205,7 +101,7 @@ export default {
         async findMyLocation() {
             var options = {
                 enableHighAccuracy: true,
-                timeout: 5000,
+                timeout: 10000,
                 maximumAge: 0
             };
             await navigator.geolocation.getCurrentPosition(this.success, this.error, options);
